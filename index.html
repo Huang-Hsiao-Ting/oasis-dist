@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>綠洲計畫 Oasis Project</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- JS -->
+    <!-- <script src="/js/app.js" defer></script> -->
+    <script type="module" crossorigin src="./assets/index-tXdAb3C1.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BS2Fjjou.css">
+  </head>
+
+  <body
+    class="min-h-screen bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50"
+  >
+    <!-- ✅ Start Overlay：暱稱只輸入一次（之後自動記住） -->
+    <div
+      id="startOverlay"
+      class="fixed inset-0 hidden items-center justify-center p-6"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+
+      <div
+        class="relative w-full max-w-xl rounded-3xl bg-white border border-slate-200 shadow-soft p-6 pop-overlay"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-14 h-14 rounded-3xl bg-emerald-600 flex items-center justify-center text-white font-black shadow-soft"
+          >
+            O
+          </div>
+          <div>
+            <div class="text-xl font-black text-slate-900">
+              綠洲計畫 Oasis Project
+            </div>
+            <div class="text-sm text-slate-600 mt-1">
+              開始之前，先告訴我你的暱稱 ✨
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <label class="text-sm font-extrabold text-slate-900">你的暱稱</label>
+          <input
+            id="nicknameInput"
+            type="text"
+            class="mt-2 w-full px-4 py-3 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-200"
+            placeholder="例如：小岱 / Handsomeboy / Queen66"
+          />
+        </div>
+
+        <div
+          class="mt-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-slate-800"
+        >
+          <div class="text-sm font-extrabold">
+            開始
+            <span id="nickPreview" class="text-emerald-700">冒險者</span
+            >，準備開始你的奇幻冒險吧！
+          </div>
+        </div>
+
+        <button
+          id="btnStartGame"
+          class="mt-4 w-full px-4 py-3 rounded-2xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700"
+        >
+          進入遊戲
+        </button>
+
+        <div
+          id="nickErr"
+          class="mt-3 hidden text-sm font-bold text-rose-700"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Top Bar -->
+    <header class="w-full px-4 sm:px-6 py-4 sticky top-0 z-[200]">
+      <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black shadow-soft"
+          >
+            O
+          </div>
+          <div>
+            <div class="font-extrabold text-slate-900 leading-tight">
+              綠洲計畫 Oasis Project
+            </div>
+            <div class="text-xs text-slate-600">1~5關｜整合版 v7</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- ✅ 顯示暱稱（可更改） -->
+          <div
+            class="px-3 py-2 rounded-2xl bg-white/85 border border-slate-200 shadow-soft flex items-center gap-2"
+          >
+            <span class="text-lg">👋</span>
+            <div class="text-sm font-extrabold text-slate-900">
+              你好，<span id="topNick">冒險者</span>
+            </div>
+            <button
+              id="btnChangeNick"
+              class="ml-1 px-2 py-1 rounded-xl bg-slate-900 text-white text-xs font-extrabold hover:bg-slate-800"
+            >
+              更改
+            </button>
+          </div>
+
+          <button
+            id="btnReset"
+            class="px-3 py-2 rounded-xl bg-white/80 border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-white shadow-soft"
+          >
+            重置進度
+          </button>
+
+          <!-- ✅ 帳本按鈕已刪除 -->
+
+          <div
+            class="px-4 py-2 rounded-2xl bg-white/85 border border-slate-200 shadow-soft flex items-center gap-3"
+          >
+            <div
+              class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center"
+            >
+              <span class="text-xl">👛</span>
+            </div>
+            <div class="leading-tight">
+              <div class="text-[11px] text-slate-600 font-semibold">
+                EcoCoin
+              </div>
+              <div class="text-lg font-black text-slate-900">
+                <span id="ecoCoin">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="px-4 sm:px-6 pb-10">
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left -->
+        <section class="lg:col-span-2">
+          <div
+            class="p-5 sm:p-6 rounded-3xl glass border border-white/60 shadow-soft"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900">
+                  關卡地圖
+                </h2>
+                <p class="text-sm text-slate-600 mt-1">
+                  第 1 關先建立核心知識，再進入 2~5 關。
+                </p>
+              </div>
+              <div
+                class="text-xs text-slate-600 font-semibold bg-white/70 border border-white/80 px-3 py-2 rounded-xl"
+              >
+                進度：<span id="progressText">0/5</span>
+              </div>
+            </div>
+
+            <div
+              class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch"
+            >
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 1 關｜知識建立＋小劇場＋情境
+                  </div>
+                  <span
+                    id="badge1"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未完成</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  錢包 / NFT / RWA → 每張卡都要「答一題」確認理解。
+                </p>
+                <button
+                  id="lv1"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700"
+                >
+                  開始第 1 關
+                </button>
+              </div>
+
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 2 關｜NFT 辨識翻牌（慢慢發牌）
+                  </div>
+                  <span
+                    id="badge2"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未解鎖</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  （依附圖）每張卡直接寫「是什麼牌」，只有一張可驗證來源。
+                </p>
+                <button
+                  id="lv2"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-slate-300 text-slate-600 font-extrabold cursor-not-allowed"
+                  disabled
+                >
+                  需要完成第 1 關
+                </button>
+              </div>
+
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 3 關｜反詐紅旗分類（遊戲）
+                  </div>
+                  <span
+                    id="badge3"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未解鎖</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  把卡片分到「安全 / 可疑」，全部分對就通關。
+                </p>
+                <button
+                  id="lv3"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-slate-300 text-slate-600 font-extrabold cursor-not-allowed"
+                  disabled
+                >
+                  需要完成第 2 關
+                </button>
+              </div>
+
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 4 關｜可疑交易偵測（放大鏡）
+                  </div>
+                  <span
+                    id="badge4"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未解鎖</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  放大鏡會「跳出可疑細節」→ 你再選最可疑的一筆。
+                </p>
+                <button
+                  id="lv4"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-slate-300 text-slate-600 font-extrabold cursor-not-allowed"
+                  disabled
+                >
+                  需要完成第 3 關
+                </button>
+              </div>
+
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 5 關｜RWA 入門＋分類小遊戲＋兌換
+                  </div>
+                  <span
+                    id="badge5"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未解鎖</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  （嚴格遵守）通關時加上 YA 音效。
+                </p>
+                <button
+                  id="lv5"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-slate-300 text-slate-600 font-extrabold cursor-not-allowed"
+                  disabled
+                >
+                  需要完成第 4 關
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right -->
+        <aside class="lg:col-span-1">
+          <div
+            class="p-5 sm:p-6 rounded-3xl glass border border-white/60 shadow-soft"
+          >
+            <h3 class="text-lg font-black text-slate-900">狀態中心</h3>
+            <!-- ✅ 5-2 玩家資訊（暱稱衍生，不影響關卡） -->
+            <div
+              class="mt-4 p-4 rounded-2xl bg-white/75 border border-white/80"
+            >
+              <div class="font-extrabold text-slate-900">玩家資訊</div>
+
+              <div class="mt-2 text-sm text-slate-700">
+                稱號：
+                <span id="playerTitle" class="font-extrabold text-emerald-700">
+                  🌱 新手冒險者
+                </span>
+              </div>
+
+              <div class="mt-1 text-xs text-slate-500">
+                Session ID：
+                <span id="playerSession">—</span>
+              </div>
+            </div>
+
+            <div
+              class="mt-4 p-4 rounded-2xl bg-white/75 border border-white/80"
+            >
+              <div class="flex items-center justify-between">
+                <div class="font-extrabold text-slate-900">
+                  Green ID Badge（SBT）
+                </div>
+                <span
+                  class="text-xs font-bold px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  >自動更新</span
+                >
+              </div>
+              <p class="text-sm text-slate-600 mt-2">
+                完成 1~4 關會亮，展示學習進度。
+              </p>
+
+              <div class="mt-3 grid grid-cols-4 gap-2">
+                <div
+                  id="sbt1"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  1
+                </div>
+                <div
+                  id="sbt2"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  2
+                </div>
+                <div
+                  id="sbt3"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  3
+                </div>
+                <div
+                  id="sbt4"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  4
+                </div>
+                <div
+                  id="sbt5"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  5
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Main Modal -->
+    <div
+      id="modal"
+      class="fixed inset-0 hidden items-center justify-center p-4"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+      <div
+        class="relative w-full max-w-3xl max-h-[88vh] rounded-3xl bg-white shadow-soft border border-white/60 overflow-hidden flex flex-col pop-overlay"
+      >
+        <div
+          class="px-5 sm:px-6 py-4 bg-gradient-to-r from-emerald-600 to-sky-600 text-white"
+        >
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div id="modalTitle" class="text-lg sm:text-xl font-black">
+                關卡
+              </div>
+              <div
+                id="modalSubtitle"
+                class="text-xs sm:text-sm text-white/90 mt-1"
+              >
+                副標
+              </div>
+            </div>
+            <button
+              id="modalClose"
+              class="w-10 h-10 rounded-2xl bg-white/15 hover:bg-white/25 flex items-center justify-center font-black"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="modalBody"
+          class="px-5 sm:px-6 py-5 overflow-y-auto"
+          style="max-height: calc(88vh - 110px)"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Jump Overlay -->
+    <div
+      id="jumpOverlay"
+      class="fixed inset-0 hidden items-center justify-center p-6"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+      <div
+        class="relative w-full max-w-lg rounded-3xl bg-white border border-slate-200 shadow-soft p-6 pop-overlay"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="w-16 h-16 rounded-3xl bg-amber-100 flex items-center justify-center text-3xl"
+          >
+            🧭
+          </div>
+          <div>
+            <div id="jumpTitle" class="text-lg font-black text-slate-900">
+              做得好！
+            </div>
+            <div id="jumpSub" class="text-sm text-slate-600 mt-1">
+              你可以看完再繼續
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-4 bg-emerald-50 border border-emerald-100 rounded-2xl p-4"
+        >
+          <div class="text-sm font-extrabold text-slate-900">學習成果卡</div>
+          <div
+            id="jumpLearn"
+            class="text-sm text-slate-800 mt-2 leading-relaxed"
+          ></div>
+        </div>
+
+        <div class="mt-3 bg-slate-50 border border-slate-200 rounded-2xl p-4">
+          <div class="text-sm font-extrabold text-slate-900">小提醒</div>
+          <div id="jumpTip" class="text-sm text-slate-700 mt-1">提示文字</div>
+        </div>
+
+        <button
+          id="jumpGo"
+          class="mt-4 w-full px-4 py-3 rounded-2xl bg-slate-900 text-white font-extrabold hover:bg-slate-800"
+        >
+          繼續
+        </button>
+      </div>
+    </div>
+
+    <!-- ✅ Celebrate Overlay -->
+    <div
+      id="celebrateOverlay"
+      class="fixed inset-0 hidden items-center justify-center p-6"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+      <div id="celebrateRain"></div>
+
+      <div
+        class="relative w-full max-w-xl rounded-3xl bg-white border border-slate-200 shadow-soft p-6 pop-overlay"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-14 h-14 rounded-3xl bg-amber-100 flex items-center justify-center text-3xl"
+            >
+              🥳
+            </div>
+            <div>
+              <div class="text-xl font-black text-slate-900">
+                恭喜 <span id="celebrateNick">冒險者</span> 完成所有任務！
+              </div>
+              <div class="text-sm text-slate-600 mt-1">你已通關 1～5 關 ✅</div>
+            </div>
+          </div>
+          <button
+            id="celebrateClose"
+            class="w-10 h-10 rounded-2xl bg-slate-900 text-white font-black hover:bg-slate-800"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div
+          class="mt-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-slate-800 text-sm leading-relaxed"
+        >
+          太棒了！你已經學會：<br />
+          <b>錢包</b
+          >（自己掌控授權）、<b>NFT</b>（看來源可驗證）、<b>RWA</b>（真實世界資產/權益憑證）<br />
+          也能辨識常見詐騙訊號：急迫、先付費、無限額、縮網址。
+        </div>
+
+        <button
+          id="celebrateOk"
+          class="mt-4 w-full px-4 py-3 rounded-2xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700"
+        >
+          我知道了
+        </button>
+      </div>
+    </div>
+    <!-- ✅ Certificate Overlay（完成後證書） -->
+    <div
+      id="certificateOverlay"
+      class="fixed inset-0 z-[30000] hidden items-center justify-center p-6 overflow-y-auto"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+
+      <div
+        class="relative w-full max-w-2xl rounded-3xl bg-white border border-slate-200 shadow-soft p-8 pt-10 pb-10 pop-overlay"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <div class="text-xl font-black text-slate-900">
+              ✅ Oasis Project 完成證書
+            </div>
+            <div class="text-sm text-slate-600 mt-1">完成 1～5 關學習任務</div>
+          </div>
+          <button
+            id="certClose"
+            class="w-10 h-10 rounded-2xl bg-slate-900 text-white font-black hover:bg-slate-800"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div
+          class="mt-4 p-5 rounded-3xl bg-gradient-to-br from-emerald-50 via-sky-50 to-amber-50 border border-white/70"
+        >
+          <div class="text-sm text-slate-700">授予</div>
+          <div class="mt-1 text-2xl font-black text-slate-900">
+            <span id="certNick">冒險者</span>
+            <span
+              class="text-base font-extrabold text-emerald-700 ml-2"
+              id="certTitle"
+              >🌱 新手冒險者</span
+            >
+          </div>
+
+          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-2xl bg-white/80 border border-white/70">
+              <div class="text-xs text-slate-500 font-bold">Session ID</div>
+              <div class="font-extrabold text-slate-900" id="certSession">
+                —
+              </div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/80 border border-white/70">
+              <div class="text-xs text-slate-500 font-bold">完成日期</div>
+              <div class="font-extrabold text-slate-900" id="certDate">—</div>
+            </div>
+          </div>
+
+          <div
+            class="mt-3 p-3 rounded-2xl bg-white/80 border border-white/70 text-sm"
+          >
+            <div class="text-xs text-slate-500 font-bold">完成徽章（SBT）</div>
+            <div class="mt-1 text-lg" id="certSBT">🌱 🥤 🛡️ 🔎 🏠</div>
+          </div>
+
+          <div
+            class="mt-3 p-3 rounded-2xl bg-white/80 border border-white/70 text-sm"
+          >
+            <div class="text-xs text-slate-500 font-bold">最終 EcoCoin</div>
+            <div class="font-extrabold text-slate-900">
+              <span id="certEco">0</span>
+            </div>
+          </div>
+
+          <div class="mt-3 text-xs text-slate-500">
+            證書用途：展示學習完成與基礎資安/反詐概念掌握（錢包 / NFT / RWA）。
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <button
+            id="certPrint"
+            class="px-4 py-3 rounded-2xl bg-slate-900 text-white font-extrabold hover:bg-slate-800"
+          >
+            列印 / 存成 PDF
+          </button>
+          <button
+            id="certOk"
+            class="px-4 py-3 rounded-2xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700"
+          >
+            我知道了
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage4 Zoom Modal -->
+    <div
+      id="zoomModal"
+      class="fixed inset-0 hidden items-center justify-center p-6"
+    >
+      <div class="absolute inset-0 modal-backdrop"></div>
+      <div
+        class="relative w-full max-w-lg rounded-3xl bg-white border border-slate-200 shadow-soft p-5 pop-overlay"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <div id="zoomTitle" class="text-lg font-black text-slate-900">
+              放大鏡
+            </div>
+            <div id="zoomSub" class="text-sm text-slate-600 mt-1">可疑細節</div>
+          </div>
+          <button
+            id="zoomClose"
+            class="w-10 h-10 rounded-2xl bg-slate-900 text-white font-black hover:bg-slate-800"
+          >
+            ✕
+          </button>
+        </div>
+        <div
+          id="zoomBody"
+          class="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm leading-relaxed"
+        ></div>
+        <button
+          id="zoomOk"
+          class="mt-4 w-full px-4 py-3 rounded-2xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700"
+        >
+          知道了
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
