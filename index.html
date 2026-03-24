@@ -10,22 +10,8 @@
 
     <!-- JS -->
     <!-- <script src="/js/app.js" defer></script> -->
-    <script type="module" crossorigin src="./assets/index-tXdAb3C1.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BS2Fjjou.css" />
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-0E5HG52DLX"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-
-      gtag('config', 'G-0E5HG52DLX');
-    </script>
+    <script type="module" crossorigin src="/oasis-dist/assets/index-BbPYITiy.js"></script>
+    <link rel="stylesheet" crossorigin href="/oasis-dist/assets/index-BS2Fjjou.css">
   </head>
 
   <body
@@ -104,7 +90,7 @@
             <div class="font-extrabold text-slate-900 leading-tight">
               綠洲計畫 Oasis Project
             </div>
-            <div class="text-xs text-slate-600">1~5關｜整合版 v7</div>
+            <div class="text-xs text-slate-600">1~6關｜整合版</div>
           </div>
         </div>
 
@@ -175,7 +161,7 @@
               <div
                 class="text-xs text-slate-600 font-semibold bg-white/70 border border-white/80 px-3 py-2 rounded-xl"
               >
-                進度：<span id="progressText">0/5</span>
+                進度：<span id="progressText">0/6</span>
               </div>
             </div>
 
@@ -211,7 +197,7 @@
               >
                 <div class="flex items-center justify-between">
                   <div class="font-extrabold text-slate-900">
-                    第 2 關｜NFT 辨識翻牌（慢慢發牌）
+                    第 2 關｜NFT 辨識翻牌
                   </div>
                   <span
                     id="badge2"
@@ -236,7 +222,7 @@
               >
                 <div class="flex items-center justify-between">
                   <div class="font-extrabold text-slate-900">
-                    第 3 關｜反詐紅旗分類（遊戲）
+                    第 3 關｜反詐紅旗分類
                   </div>
                   <span
                     id="badge3"
@@ -270,7 +256,7 @@
                   >
                 </div>
                 <p class="text-sm text-slate-600 mt-2">
-                  放大鏡會「跳出可疑細節」→ 你再選最可疑的一筆。
+                  放大鏡會「跳出可疑細節」→ 再選最可疑的一筆。
                 </p>
                 <button
                   id="lv4"
@@ -286,7 +272,7 @@
               >
                 <div class="flex items-center justify-between">
                   <div class="font-extrabold text-slate-900">
-                    第 5 關｜RWA 入門＋分類小遊戲＋兌換
+                    第 5 關｜RWA 入門＋分類小遊戲
                   </div>
                   <span
                     id="badge5"
@@ -295,7 +281,7 @@
                   >
                 </div>
                 <p class="text-sm text-slate-600 mt-2">
-                  （嚴格遵守）通關時加上 YA 音效。
+                  依據情境進行分類判斷。
                 </p>
                 <button
                   id="lv5"
@@ -303,6 +289,31 @@
                   disabled
                 >
                   需要完成第 4 關
+                </button>
+              </div>
+
+              <div
+                class="p-4 rounded-2xl bg-white/75 border border-white/80 card-hover flex flex-col h-full"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="font-extrabold text-slate-900">
+                    第 6 關｜回饋表單
+                  </div>
+                  <span
+                    id="badge6"
+                    class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-600 font-bold"
+                    >未解鎖</span
+                  >
+                </div>
+                <p class="text-sm text-slate-600 mt-2">
+                  完成前面全部關卡，才可開啟 Google 表單填答。
+                </p>
+                <button
+                  id="lv6"
+                  class="mt-3 w-full px-4 py-3 rounded-2xl bg-slate-300 text-slate-600 font-extrabold cursor-not-allowed"
+                  disabled
+                >
+                  需要完成前 1～5 關
                 </button>
               </div>
             </div>
@@ -347,10 +358,10 @@
                 >
               </div>
               <p class="text-sm text-slate-600 mt-2">
-                完成 1~4 關會亮，展示學習進度。
+                完成對應關卡就會亮，展示學習進度。
               </p>
 
-              <div class="mt-3 grid grid-cols-4 gap-2">
+              <div class="mt-3 grid grid-cols-3 sm:grid-cols-6 gap-2">
                 <div
                   id="sbt1"
                   class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
@@ -380,6 +391,12 @@
                   class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
                 >
                   5
+                </div>
+                <div
+                  id="sbt6"
+                  class="p-2 rounded-xl bg-slate-100 text-center text-xs font-black text-slate-500"
+                >
+                  6
                 </div>
               </div>
             </div>
@@ -500,7 +517,7 @@
               <div class="text-xl font-black text-slate-900">
                 恭喜 <span id="celebrateNick">冒險者</span> 完成所有任務！
               </div>
-              <div class="text-sm text-slate-600 mt-1">你已通關 1～5 關 ✅</div>
+              <div class="text-sm text-slate-600 mt-1">你已通關 1～6 關 ✅</div>
             </div>
           </div>
           <button
@@ -543,7 +560,7 @@
             <div class="text-xl font-black text-slate-900">
               ✅ Oasis Project 完成證書
             </div>
-            <div class="text-sm text-slate-600 mt-1">完成 1～5 關學習任務</div>
+            <div class="text-sm text-slate-600 mt-1">完成 1～6 關學習任務</div>
           </div>
           <button
             id="certClose"
